@@ -26,13 +26,13 @@ public class UserService {
     }
 
     public UserDTO addUserInDB(UserDTO userDTO) {
-        User saveuser = 
-            UserRepo.save(UserMapper.INSTANCE.mapUserDTOToUser(userDTO));
-        return UserMapper.INSTANCE.mapUserToUserDTO(saveuser);
+        User savaUser = 
+            userRepo.save(UserMapper.INSTANCE.mapUserDTOToUser(userDTO));
+        return UserMapper.INSTANCE.mapUserToUserDTO(savaUser);
     }
 
     public ResponseEntity<UserDTO> fetchUserById(Long id) {
-        Optional<User> user = UserRepo.findById(id);
+        Optional<User> user = userRepo.findById(id);
         if (user.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
