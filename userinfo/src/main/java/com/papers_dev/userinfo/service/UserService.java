@@ -5,6 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.papers_dev.userinfo.dto.UserDTO;
+import com.papers_dev.userinfo.entity.User;
+import com.papers_dev.userinfo.mapper.UserMapper;
+import com.papers_dev.userinfo.repo.UserRepo;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,26 +17,26 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     @Autowired
-    FoodItemRepo foodItemRepo;
+    UserRepo userRepo;
 
-    public List<FoodItemDTO> findAllfoodItems() {
-        List<FoodItem> foodItems = foodItemRepo.findAll();
-        return foodItems.stream()
-                .map(FoodItemMapper.INSTANCE::mapFoodItemToFoodItemDTO).collect(Collectors.toList());
+    public List<UserDTO> findAllUsers() {
+        List<User> users = userRepo.findAll();
+        return users.stream()
+                .map(UserMapper.INSTANCE::mapUserToUserDTO).collect(Collectors.toList());
     }
 
-    public FoodItemDTO addfoodItemInDB(FoodItemDTO foodItemDTO) {
-        FoodItem savafoodItem = 
-            foodItemRepo.save(FoodItemMapper.INSTANCE.mapFoodItemDTOToFoodItem(foodItemDTO));
-        return FoodItemMapper.INSTANCE.mapFoodItemToFoodItemDTO(savafoodItem);
+    public UserDTO addUserInDB(UserDTO userDTO) {
+        User saveuser = 
+            UserRepo.save(UserMapper.INSTANCE.mapUserDTOToUser(userDTO));
+        return UserMapper.INSTANCE.mapUserToUserDTO(saveuser);
     }
 
-    public ResponseEntity<FoodItemDTO> fetchfoodItemById(Long id) {
-        Optional<FoodItem> foodItem = foodItemRepo.findById(id);
-        if (foodItem.isEmpty()) {
+    public ResponseEntity<UserDTO> fetchUserById(Long id) {
+        Optional<User> user = UserRepo.findById(id);
+        if (user.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(FoodItemMapper.INSTANCE.mapFoodItemToFoodItemDTO(foodItem.get()),
+        return new ResponseEntity<>(UserMapper.INSTANCE.mapUserToUserDTO(user.get()),
                 HttpStatus.OK);
     }
 
